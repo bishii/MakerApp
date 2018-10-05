@@ -51,6 +51,15 @@
     <FONT SIZE="100">{{ totalBub }}</FONT><BR>
     Bubble Sorts - Lifetime
     <BR><BR>
+    <BR><BR>
+    <U><B>How This Page Works... (as of mid/late 2018):</U></B><BR>
+    <BR>
+    <U><B>Step 0:</U></B> Raspberry Pi (Somewhere in Brent's House) runs a program to sort stuff; After completing each sort, it uploads data directly to DynamoDB via SDK. [TODO: Performance and security concerns.  Change to post to SQS]; The data posted is JSON and contains all sorts of info about the sort: the time it took, the number of "sorting operations performed", etc. By the grace of [G|g]od, DynamoDB is a NOSQL environment.  Thus, the data "columns" are not set per data instance, so current and future algorithms can be truly plug-and-play. (eg, there are no "element swaps" in a Selection sort, but there are in Bubble sort!)<BR>
+    <BR>
+    <U><B>Step 1:</U></B> This page is part of a public facing Python/Flask application (author: b. ishii), sitting on an EC2 instance in AWS. When the page loads, the server-side controller queries the DynamoDB table via SDK, in accordance with the table's primary and secondary sort keys (Module name, Date inserted); The controller then creates "arrays" with the desired data and format to display.  This data is then joined and rendered by template...
+<BR>
+    <BR>
+    <U><B>Step 2:</U></B> Flask uses JINJA 2 as it's default templating framework. Within the template, I embed a google widget (corechart package) -- [Q: Does anyone still use 'standarized widgets' anymore ??] -- next, I very skillfully cut and paste the google.charts and google.visualization code... and VOILA!!!   
     </FONT>
   </body>
 </html>
